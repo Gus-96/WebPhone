@@ -1,0 +1,66 @@
+body {
+  background-color: rgb(183, 170, 194);
+}
+
+#keyboard {
+  width: 50vw;
+  height: 25vw;
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+}
+
+#call_number {
+  width: 50vw;
+  height: 5vw;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+#hung_up {
+  width: 50vw;
+  height: 5vw;
+  background-color: red;
+  color: white;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+#clean {
+  width: 50vw;
+  height: 5vw;
+  background-color: blue;
+  color: white;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;   
+}
+
+#inputBox {
+  width: 49.4vw;
+  height: 5vw;
+  font-size: 70px;  
+  text-align: center;
+  margin-top: 5px;
+}
+
+#statusPhone{
+  width: 49.4vw;
+  height: 5vw;
+  font-size: 40px;  
+  margin-top: 5px;
+  text-align: center;
+}
