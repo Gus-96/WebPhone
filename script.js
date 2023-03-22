@@ -36,10 +36,10 @@ clean.addEventListener('click', function(){
 // Adiciona ao corpo da página HTML
 document.body.appendChild(inputStatusPhone);
 document.body.appendChild(inputTextField);
+show_keyboard()
 document.body.appendChild(call_number);
 document.body.appendChild(hung_up);
 document.body.appendChild(clean);
-show_keyboard()
 
 // Exibe o teclado
 function show_keyboard(){
@@ -50,7 +50,7 @@ function show_keyboard(){
     const botao = document.createElement("button");
     botao.innerText = button_value[i];
     botao.addEventListener("click", function() {
-      if (current_text_field <= 14) {
+      if (current_text_field <= 13) {
         add_text_in_field(button_value[i]);
       } 
     });
@@ -78,7 +78,6 @@ function to_call_number(){
   if (num != ""){  
     inputStatusPhone.value = `Chamando ... ${num} `
   }
-
 }
 
 function to_hung_up(){
