@@ -38,13 +38,13 @@ document.body.appendChild(inputStatusPhone);
 document.body.appendChild(inputTextField);
 show_keyboard()
 document.body.appendChild(call_number);
-document.body.appendChild(hung_up);
 document.body.appendChild(clean);
+document.body.appendChild(hung_up);
 
 // Exibe o teclado
 function show_keyboard(){
-  var button_container = document.getElementById("keyboard");
-  var button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
+  const button_container = document.getElementById("keyboard");
+  const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
   
   for (let i = 0; i < button_value.length; i++) {
     const botao = document.createElement("button");
@@ -75,11 +75,12 @@ function clean_text_field(){
 // liga para o número informado
 function to_call_number(){
   var num = document.getElementById("inputBox").value;
-  if (num != ""){  
+  if (num != "" && current_text_field >= 3){  
     inputStatusPhone.value = `Chamando ... ${num} `
   }
 }
 
+// Desliga a chamada
 function to_hung_up(){
   inputStatusPhone.value = "Web Phone Desligado";
   clean_text_field();
