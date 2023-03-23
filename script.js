@@ -1,12 +1,12 @@
 var current_text_field = 0;
 
-let inputTextField = document.createElement("input");
+const inputTextField = document.createElement("input");
 inputTextField.type = "text";
 inputTextField.value = null;
 inputTextField.id = 'inputBox';
 inputTextField.disabled = true;
 
-let inputStatusPhone = document.createElement("input");
+const inputStatusPhone = document.createElement("input");
 inputStatusPhone.type = "text";
 inputStatusPhone.value = "Web Phone Desligado";
 inputStatusPhone.id = 'statusPhone';
@@ -74,7 +74,7 @@ function clean_text_field(){
 
 // liga para o número informado
 function to_call_number(){
-  var num = document.getElementById("inputBox").value;
+  const num = document.getElementById("inputBox").value;
   if (num != "" && current_text_field >= 3){  
     inputStatusPhone.value = `Chamando ... ${num} `
   }
