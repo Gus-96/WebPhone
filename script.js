@@ -22,6 +22,7 @@ call_number.addEventListener('click', function() {
 const hung_up = document.createElement('button');
 hung_up.textContent = 'Desligar';
 hung_up.id = 'hung_up';
+hung_up.style.display = "none";
 hung_up.addEventListener('click', function(){
   to_hung_up()
 });
@@ -77,12 +78,15 @@ function to_call_number(){
   const num = document.getElementById("inputBox").value;
   if (num != "" && current_text_field >= 3){  
     inputStatusPhone.value = `Chamando ... ${num} `
+    call_number.style.display = "none";
+    hung_up.style.display = "block";
   }
 }
 
 // Desliga a chamada
 function to_hung_up(){
   inputStatusPhone.value = "Web Phone Desligado";
-  clean_text_field();
+  hung_up.style.display = "none";
+  call_number.style.display = "block";
 }
 
