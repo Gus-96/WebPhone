@@ -76,7 +76,7 @@ function clean_text_field(){
 // liga para o número informado
 function to_call_number(){
   var phone = document.getElementById("inputBox").value;
-  if (phone != "" && current_text_field >= 3){ 
+  if (phone != "" && phone >= 9){ 
     if (check_phone(phone)) {
       inputStatusPhone.value = `Chamando ... ${phone} `
       call_number.style.display = "none";
