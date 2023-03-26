@@ -1,5 +1,3 @@
-var current_text_field = 0;
-
 const inputTextField = document.createElement("input");
 inputTextField.type = "text";
 inputTextField.value = null;
@@ -11,6 +9,9 @@ inputStatusPhone.type = "text";
 inputStatusPhone.value = "Web Phone Desligado";
 inputStatusPhone.id = 'statusPhone';
 inputStatusPhone.disabled = true;
+
+const keyboardDiv = document.createElement("div");
+keyboardDiv.id = "keyboard";
 
 const call_number = document.createElement('button');
 call_number.textContent = 'Ligar';
@@ -33,32 +34,32 @@ clean.id = 'clean';
 clean.addEventListener('click', function(){
   clean_text_field()
 });
-  
+
 // Adiciona ao corpo da página HTML
+document.body.appendChild(keyboardDiv);
 document.body.appendChild(inputStatusPhone);
 document.body.appendChild(inputTextField);
-show_keyboard()
 document.body.appendChild(call_number);
 document.body.appendChild(clean);
 document.body.appendChild(hung_up);
 
 // Exibe o teclado
-function show_keyboard(){
-  const button_container = document.getElementById("keyboard");
-  const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
+const button_container = document.getElementById("keyboard");
+const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
+
+for (let i = 0; i < button_value.length; i++) {
+  const button = document.createElement("button");
+  button.innerText = button_value[i];
+  button.addEventListener("click", function() {
+    if (current_text_field <= 10) {
+      add_text_in_field(button_value[i]);
+    } 
+  });
   
-  for (let i = 0; i < button_value.length; i++) {
-    const botao = document.createElement("button");
-    botao.innerText = button_value[i];
-    botao.addEventListener("click", function() {
-      if (current_text_field <= 10) {
-        add_text_in_field(button_value[i]);
-      } 
-    });
-    
-    button_container.appendChild(botao);
-  }
+  button_container.appendChild(button);
 }
+
+var current_text_field = 0;
 
 // Escreve no campo de texto
 function add_text_in_field(value) {
@@ -67,43 +68,40 @@ function add_text_in_field(value) {
   current_text_field += 1
 }
 
-// limpa o campo de texto
+// Limpa o campo de texto
 function clean_text_field(){ 
   document.getElementById("inputBox").value = "";
   current_text_field = 0;
 }
 
-// liga para o número informado
+// Liga para o número informado
 function to_call_number(){
   var phone = document.getElementById("inputBox").value;
-  if (phone != "" && phone >= 9){ 
+  if (phone != "" && phone.length >= 10){ 
     if (check_phone(phone)) {
       inputStatusPhone.value = `Chamando ... ${phone} `
       call_number.style.display = "none";
       hung_up.style.display = "block";
     } else{
-        alert("Telefone inválido, informe: DDD + Número");
+      alert("Telefone inválido, informe: DDD + Número");
     }
   } else if (phone == ""){
-      alert("Informe um número de telefone!");
+    alert("Informe um número de telefone!");
   }  else {
-      alert("Número informado inválido!");
+    alert("Número informado inválido!");
   }
 }
 
-// Desliga a chamada
+// Desliga a ligação
 function to_hung_up(){
   inputStatusPhone.value = "Web Phone Desligado";
   hung_up.style.display = "none";
   call_number.style.display = "block";
 }
 
+// Valida telefone
 function check_phone(phone) {
-  if (phone.length !== 10 && phone.length !== 11) {
-    return false;
-  }
-
-  var ddds = [
+  const ddds = [
     "11", "12", "13", "14", "15", "16", "17", "18", "19",
     "21", "22", "24", "27", "28",
     "31", "32", "33", "34", "35", "37", "38",
@@ -118,16 +116,23 @@ function check_phone(phone) {
     "81", "82", "83", "84", "85", "86", "87", "88", "89",
     "91", "92", "93", "94", "95", "96", "97", "98", "99"
   ];
-
-  // Extrai o DDD da string do número de phone
+  
   var ddd = phone.substr(0, 2);
-
-  // Verifica se o DDD está dentro da lista de DDDs válidos
+  
   if (ddds.includes(ddd)) {
+    
+    if (phone.length == 11){
+      let mobile_code = phone.charAt(2);
+      
+      if (mobile_code == 9){  
+        return true;
+      }else {
+        return false;
+      }
+
+    }
+    
     return true;
-  } else {
-    return false;
   }
 
 }
-
