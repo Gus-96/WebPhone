@@ -51,7 +51,7 @@ function show_keyboard(){
     const botao = document.createElement("button");
     botao.innerText = button_value[i];
     botao.addEventListener("click", function() {
-      if (current_text_field <= 13) {
+      if (current_text_field <= 10) {
         add_text_in_field(button_value[i]);
       } 
     });
@@ -75,11 +75,19 @@ function clean_text_field(){
 
 // liga para o número informado
 function to_call_number(){
-  const num = document.getElementById("inputBox").value;
-  if (num != "" && current_text_field >= 3){  
-    inputStatusPhone.value = `Chamando ... ${num} `
-    call_number.style.display = "none";
-    hung_up.style.display = "block";
+  var phone = document.getElementById("inputBox").value;
+  if (phone != "" && current_text_field >= 3){ 
+    if (check_phone(phone)) {
+      inputStatusPhone.value = `Chamando ... ${phone} `
+      call_number.style.display = "none";
+      hung_up.style.display = "block";
+    } else{
+        alert("Telefone inválido, informe: DDD + Número");
+    }
+  } else if (phone == ""){
+      alert("Informe um número de telefone!");
+  }  else {
+      alert("Número informado inválido!");
   }
 }
 
@@ -88,5 +96,38 @@ function to_hung_up(){
   inputStatusPhone.value = "Web Phone Desligado";
   hung_up.style.display = "none";
   call_number.style.display = "block";
+}
+
+function check_phone(phone) {
+  if (phone.length !== 10 && phone.length !== 11) {
+    return false;
+  }
+
+  var ddds = [
+    "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    "21", "22", "24", "27", "28",
+    "31", "32", "33", "34", "35", "37", "38",
+    "41", "42", "43", "44", "45", "46",
+    "47", "48", "49",
+    "51", "53", "54", "55",
+    "61", "62", "64", "63", "65", "66",
+    "67", "68",
+    "69",
+    "71", "73", "74", "75", "77",
+    "79",
+    "81", "82", "83", "84", "85", "86", "87", "88", "89",
+    "91", "92", "93", "94", "95", "96", "97", "98", "99"
+  ];
+
+  // Extrai o DDD da string do número de phone
+  var ddd = phone.substr(0, 2);
+
+  // Verifica se o DDD está dentro da lista de DDDs válidos
+  if (ddds.includes(ddd)) {
+    return true;
+  } else {
+    return false;
+  }
+
 }
 
