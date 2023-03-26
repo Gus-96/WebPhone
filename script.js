@@ -43,6 +43,9 @@ document.body.appendChild(call_number);
 document.body.appendChild(clean);
 document.body.appendChild(hung_up);
 
+var current_text_field = 0;
+var calling = new Audio("audio/chamando.mp3");
+
 // Exibe o teclado
 const button_container = document.getElementById("keyboard");
 const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
@@ -59,8 +62,6 @@ for (let i = 0; i < button_value.length; i++) {
   button_container.appendChild(button);
 }
 
-var current_text_field = 0;
-
 // Escreve no campo de texto
 function add_text_in_field(value) {
   const text_field = document.getElementById("inputBox");
@@ -75,16 +76,20 @@ function clean_text_field(){
 }
 
 // Liga para o número informado
-function to_call_number(){
+function to_call_number(){  
   var phone = document.getElementById("inputBox").value;
   if (phone != "" && phone.length >= 10){ 
     if (check_phone(phone)) {
       inputStatusPhone.value = `Chamando ... ${phone} `
+      calling.currentTime = 0;
+      calling.loop = true;
+      calling.play();
       call_number.style.display = "none";
       hung_up.style.display = "block";
     } else{
       alert("Telefone inválido, informe: DDD + Número");
     }
+
   } else if (phone == ""){
     alert("Informe um número de telefone!");
   }  else {
@@ -94,6 +99,7 @@ function to_call_number(){
 
 // Desliga a ligação
 function to_hung_up(){
+  calling.pause();
   inputStatusPhone.value = "Web Phone Desligado";
   hung_up.style.display = "none";
   call_number.style.display = "block";
