@@ -45,6 +45,8 @@ document.body.appendChild(hung_up);
 
 var current_text_field = 0;
 var calling = new Audio("audio/chamando.mp3");
+const phoneNumberRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}-[0-9]{4}$/;
+
 
 // Exibe o teclado
 const button_container = document.getElementById("keyboard");
@@ -78,9 +80,11 @@ function clean_text_field(){
 // Liga para o número informado
 function to_call_number(){  
   var phone = document.getElementById("inputBox").value;
+  const formattedPhoneNumber = formatPhoneNumberBR(phone);
+
   if (phone != "" && phone.length >= 10){ 
     if (check_phone(phone)) {
-      inputStatusPhone.value = `Chamando ... ${phone} `
+      inputStatusPhone.value = `Chamando ... ${formattedPhoneNumber} `
       calling.currentTime = 0;
       calling.loop = true;
       calling.play();
@@ -140,5 +144,13 @@ function check_phone(phone) {
     
     return true;
   }
+}
 
+function formatPhoneNumberBR(phone) {
+  const cleaned = ('' + phone).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+  }
+  return null;
 }
