@@ -45,7 +45,6 @@ document.body.appendChild(hung_up);
 
 var current_text_field = 0;
 var calling = new Audio("audio/chamando.mp3");
-const phoneNumberRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}-[0-9]{4}$/;
 
 
 // Exibe o teclado
@@ -82,7 +81,7 @@ function to_call_number(){
   var phone = document.getElementById("inputBox").value;
   const formattedPhoneNumber = formatPhoneNumberBR(phone);
 
-  if (phone != "" && phone.length >= 10){ 
+  if (phone != "" && phone.length >= 10 && isNumeric(phone)){ 
     if (check_phone(phone)) {
       inputStatusPhone.value = `Chamando ... ${formattedPhoneNumber} `
       calling.currentTime = 0;
@@ -146,6 +145,7 @@ function check_phone(phone) {
   }
 }
 
+// Formata o telefone ao realizar a chamada
 function formatPhoneNumberBR(phone) {
   const cleaned = ('' + phone).replace(/\D/g, '');
   const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
@@ -153,4 +153,9 @@ function formatPhoneNumberBR(phone) {
     return '(' + match[1] + ') ' + match[2] + '-' + match[3];
   }
   return null;
+}
+
+// Verifica se phone contém somente caracteres númericos
+function isNumeric(phone) {
+  return /^\d+$/.test(phone);
 }
