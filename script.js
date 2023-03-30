@@ -46,7 +46,6 @@ document.body.appendChild(hung_up);
 var current_text_field = 0;
 var calling = new Audio("audio/chamando.mp3");
 
-
 // Exibe o teclado
 const button_container = document.getElementById("keyboard");
 const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
@@ -147,12 +146,10 @@ function check_phone(phone) {
 
 // Formata o telefone ao realizar a chamada
 function formatPhoneNumberBR(phone) {
-  const cleaned = ('' + phone).replace(/\D/g, '');
-  const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
+  const match = phone.match(/^(\d{2})(\d{4,5})(\d{4})$/);
   if (match) {
     return '(' + match[1] + ') ' + match[2] + '-' + match[3];
   }
-  return null;
 }
 
 // Verifica se phone contém somente caracteres númericos
