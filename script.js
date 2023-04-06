@@ -35,13 +35,26 @@ clean.addEventListener('click', function(){
   clean_text_field()
 });
 
+const backspace = document.createElement('button');
+backspace.textContent = '<';
+backspace.id = 'backspace';
+backspace.addEventListener('click', function(){
+  backspace_text_field()
+});
+
+const container = document.createElement("div");
+container.id = 'container';
+container.appendChild(inputTextField);
+container.appendChild(backspace);
+
 // Adiciona ao corpo da página HTML
 document.body.appendChild(keyboardDiv);
 document.body.appendChild(inputStatusPhone);
-document.body.appendChild(inputTextField);
+document.body.appendChild(container);
 document.body.appendChild(call_number);
 document.body.appendChild(clean);
 document.body.appendChild(hung_up);
+
 
 var current_text_field = 0;
 var calling = new Audio("audio/chamando.mp3");
@@ -80,18 +93,18 @@ function to_call_number(){
   var phone = document.getElementById("inputBox").value;
   const formattedPhoneNumber = formatPhoneNumberBR(phone);
 
-  if (phone != "" && phone.length >= 10 && isNumeric(phone)){ 
+  if (phone != "" && phone.length >= 8 ){ 
     
     if (check_phone(phone)) {
       inputStatusPhone.value = `Chamando ... ${formattedPhoneNumber} `
+      calling.play();
       calling.currentTime = 0;
       calling.loop = true;
-      calling.play();
       call_number.style.display = "none";
       hung_up.style.display = "block";
     } else{
       alert("Telefone inválido, informe: DDD + Número");
-    }script.js
+    }
 
   } else if (phone == ""){
     alert("Informe um número de telefone!");
@@ -123,21 +136,22 @@ function check_phone(phone) {
   ];
   
   var ddd = phone.substr(0, 2);
+  var mobile_code = phone.charAt(2);
   
+  // Validação DDD
   if (ddds.includes(ddd)) {
     
-    if (phone.length == 11){
-      let mobile_code = phone.charAt(2);
-      
-      if (mobile_code == 9){  
+    // Validação Celular
+    if (phone.length == 11){      
+       if (mobile_code == 9){  
         return true;
       }else {
         return false;
       }
-
     }
-    
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -150,6 +164,15 @@ function formatPhoneNumberBR(phone) {
 }
 
 // Verifica se phone contém somente caracteres númericos
-function isNumeric(phone) {
-  return /^\d+$/.test(phone);
+function isNaN(phone) {
+  return /\^d+$/.test(phone);
+}
+
+// Apagar o último caracter do número de telefone
+function backspace_text_field(){
+  const campoTexto = document.getElementById("inputBox");
+  let valorAtual = campoTexto.value;
+  valorAtual = valorAtual.slice(0, -1);
+  campoTexto.value = valorAtual;
+  current_text_field -= 1 ;
 }
