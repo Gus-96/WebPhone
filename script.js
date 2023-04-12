@@ -55,9 +55,9 @@ document.body.appendChild(call_number);
 document.body.appendChild(clean);
 document.body.appendChild(hung_up);
 
-
 var current_text_field = 0;
 var calling = new Audio("audio/chamando.mp3");
+var recentCalls = []
 
 // Exibe o teclado
 const button_container = document.getElementById("keyboard");
@@ -93,19 +93,16 @@ function to_call_number(){
   var phone = document.getElementById("inputBox").value;
   const formattedPhoneNumber = formatPhoneNumberBR(phone);
 
-  if (phone != "" && phone.length >= 10 && isNumber(phone)){ 
-    
-    if (check_phone(phone)) {
-      inputStatusPhone.value = `Chamando ...`
-      inputTextField.value = `${formattedPhoneNumber} `
-      calling.play();
-      calling.currentTime = 0;
-      calling.loop = true;
-      call_number.style.display = "none";
-      hung_up.style.display = "block";
-    } else{
-      alert("Telefone inválido, informe: DDD + Número");
-    }
+  if (phone.length >= 10 && isNumber(phone) && check_phone(phone)){ 
+
+    inputStatusPhone.value = `Chamando ...`
+    inputTextField.value = `${formattedPhoneNumber} `
+    call_number.style.display = "none";
+    hung_up.style.display = "block";
+    calling.play();
+    calling.currentTime = 0;
+    calling.loop = true;
+    recentCalls.push(formattedPhoneNumber);
 
   } else if (phone == ""){
     alert("Informe um número de telefone!");
