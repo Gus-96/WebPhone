@@ -93,10 +93,11 @@ function to_call_number(){
   var phone = document.getElementById("inputBox").value;
   const formattedPhoneNumber = formatPhoneNumberBR(phone);
 
-  if (phone != "" && phone.length >= 8 ){ 
+  if (phone != "" && phone.length >= 10 && isNumber(phone)){ 
     
     if (check_phone(phone)) {
-      inputStatusPhone.value = `Chamando ... ${formattedPhoneNumber} `
+      inputStatusPhone.value = `Chamando ...`
+      inputTextField.value = `${formattedPhoneNumber} `
       calling.play();
       calling.currentTime = 0;
       calling.loop = true;
@@ -108,17 +109,20 @@ function to_call_number(){
 
   } else if (phone == ""){
     alert("Informe um número de telefone!");
-  }  else {
+  } else if (phone.length >= 8 && phone.length <= 9){
+    alert("Telefone inválido, informe: DDD + Número");
+  } else {
     alert("Número informado inválido!");
   }
 }
 
 // Desliga a ligação
 function to_hung_up(){
-  calling.pause();
   inputStatusPhone.value = "Web Phone Desligado";
   hung_up.style.display = "none";
   call_number.style.display = "block";
+  calling.pause();
+  clean_text_field()
 }
 
 // Valida telefone
@@ -164,8 +168,8 @@ function formatPhoneNumberBR(phone) {
 }
 
 // Verifica se phone contém somente caracteres númericos
-function isNaN(phone) {
-  return /\^d+$/.test(phone);
+function isNumber(phone) {
+  return /^\d+$/.test(phone);
 }
 
 // Apagar o último caracter do número de telefone
