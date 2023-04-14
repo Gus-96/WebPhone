@@ -2,8 +2,8 @@ const webPhone = new WebPhone();
 const recentCalls = []
 
 function WebPhone(){
-  inputField = new InputField();
-  phone = new Phone();
+  const inputField = new InputField();
+  const phone = new Phone();
 
   // Declara os elementos HTML
   this.inputTextField = document.createElement("input");
@@ -11,6 +11,12 @@ function WebPhone(){
   this.inputTextField.value = null;
   this.inputTextField.id = 'inputBox';
   this.inputTextField.disabled = true;
+
+  this.inputRecentCalls = document.createElement("textarea");
+  this.inputRecentCalls.type = "text";
+  this.inputRecentCalls.value = null;
+  this.inputRecentCalls.id = 'recentCalls';
+  this.inputRecentCalls.disabled = true;
 
   this.inputStatusPhone = document.createElement("input");
   this.inputStatusPhone.type = "text";
@@ -62,11 +68,12 @@ function WebPhone(){
   document.body.appendChild(call_number);
   document.body.appendChild(clean);
   document.body.appendChild(hung_up);
+  document.body.appendChild(this.inputRecentCalls);
   
   // Exibe o teclado
   const button_container = document.getElementById("keyboard");
   const button_value = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#",];
-
+  
   for (let i = 0; i < button_value.length; i++) {
     const button = document.createElement("button");
     button.innerText = button_value[i];
@@ -78,7 +85,6 @@ function WebPhone(){
     
     button_container.appendChild(button);
   }
-
 }
 
 function InputField(){
@@ -108,6 +114,7 @@ function InputField(){
 }
 
 function Phone(){
+  const inputField = new InputField();
   var calling = new Audio("audio/chamando.mp3");
   
   // Liga para o número informado
@@ -115,7 +122,7 @@ function Phone(){
     var phone_number = document.getElementById("inputBox").value;
     const formattedPhoneNumber = formatPhoneNumberBR(phone_number);
 
-    if (phone_number.length >= 10 && isNumber(phone_number) && phone.check_phone(phone_number)){ 
+    if (phone_number.length >= 10 && isNumber(phone_number) && check_phone(phone_number)){ 
       
       webPhone.inputStatusPhone.value = `Chamando ...`
       webPhone.inputTextField.value = `${formattedPhoneNumber} `
@@ -125,6 +132,7 @@ function Phone(){
       calling.currentTime = 0;
       calling.loop = true;
       recentCalls.push(formattedPhoneNumber);
+      formattedRecentCalls(recentCalls);
 
     } else if (phone_number == ""){
       alert("Informe um número de telefone!");
@@ -147,7 +155,7 @@ function Phone(){
   }
 
   // Valida telefone
-  this.check_phone = function(phone_number){ 
+  function check_phone(phone_number){ 
     const ddds = [
       "11", "12", "13", "14", "15", "16", "17", "18", "19",
       "21", "22", "24", "27", "28",
@@ -191,5 +199,13 @@ function Phone(){
   // Verifica se telefone contém somente caracteres númericos
   function isNumber(phone_number) {
     return /^\d+$/.test(phone_number);
+  }
+
+  function formattedRecentCalls(recentCalls){
+    let calls = "";
+    for (let i = 0; i < recentCalls.length; i++) {
+      calls += recentCalls[i] + "\n";
+    }
+    document.getElementById("recentCalls").value = calls;    
   }
 }
