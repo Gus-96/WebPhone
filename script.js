@@ -87,71 +87,13 @@ function WebPhone(){
   }
 }
 
-function InputField(){
-  current_text_field = 0;
-
-  // Escreve no campo de texto
-  this.add_text_in_field = function (value) {
-    const text_field = document.getElementById("inputBox");
-    text_field.value += value;
-    current_text_field += 1
-  }
-  
-  // Limpa o campo de texto
-  this.clean_text_field = function(){ 
-    document.getElementById("inputBox").value = "";
-    current_text_field = 0;
-  }
-  
-  // Apagar o último caracter do número de telefone
-  this.backspace_text_field = function(){
-    const campoTexto = document.getElementById("inputBox");
-    let valorAtual = campoTexto.value;
-    valorAtual = valorAtual.slice(0, -1);
-    campoTexto.value = valorAtual;
-    current_text_field -= 1 ;
-  }
-}
-
 function Phone(){
   const inputField = new InputField();
   var calling = new Audio("audio/chamando.mp3");
-  
-  // Liga para o número informado
-  this.to_call_number = function (){ 
-    var phone_number = document.getElementById("inputBox").value;
-    const formattedPhoneNumber = formatPhoneNumberBR(phone_number);
 
-    if (phone_number.length >= 10 && isNumber(phone_number) && check_phone(phone_number)){ 
-      
-      webPhone.inputStatusPhone.value = `Chamando ...`
-      webPhone.inputTextField.value = `${formattedPhoneNumber} `
-      call_number.style.display = "none";
-      hung_up.style.display = "block";
-      calling.play();
-      calling.currentTime = 0;
-      calling.loop = true;
-      recentCalls.push(formattedPhoneNumber);
-      formattedRecentCalls(recentCalls);
-
-    } else if (phone_number == ""){
-      alert("Informe um número de telefone!");
-    } else if (phone_number.length == 3){
-      alert("Não é possivel realizar chamadas de emergência no Web Phone!");
-    } else if (phone_number.length >= 8 && phone_number.length <= 9){
-      alert("Telefone inválido, informe: DDD + Número");
-    } else {
-      alert("Número informado inválido!");
-    }
-  }
-
-  // Desliga a ligação
-  this.to_hung_up = function (){ 
-    webPhone.inputStatusPhone.value = "Web Phone Desligado";
-    hung_up.style.display = "none";
-    call_number.style.display = "block";
-    calling.pause();
-    inputField.clean_text_field()
+  // Verifica se telefone contém somente caracteres númericos
+  function isNumber(phone_number) {
+    return /^\d+$/.test(phone_number);
   }
 
   // Valida telefone
@@ -187,25 +129,84 @@ function Phone(){
       return false;
     }
   }
+  
+  // Liga para o número informado
+  this.to_call_number = function (){ 
+    var phone_number = document.getElementById("inputBox").value;
+    const formattedPhoneNumber = inputField.formatPhoneNumberBR(phone_number);
 
-  // Formata o telefone ao realizar a chamada
-  function formatPhoneNumberBR(phone_number) {
-    const match = phone_number.match(/^(\d{2})(\d{4,5})(\d{4})$/);
-    if (match) {
-      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    if (phone_number.length >= 10 && isNumber(phone_number) && check_phone(phone_number)){ 
+      
+      webPhone.inputStatusPhone.value = `Chamando ...`
+      webPhone.inputTextField.value = `${formattedPhoneNumber} `
+      call_number.style.display = "none";
+      hung_up.style.display = "block";
+      calling.play();
+      calling.currentTime = 0;
+      calling.loop = true;
+      recentCalls.push(formattedPhoneNumber);
+      inputField.formattedRecentCalls(recentCalls);
+
+    } else if (phone_number == ""){
+      alert("Informe um número de telefone!");
+    } else if (phone_number.length == 3){
+      alert("Não é possivel realizar chamadas de emergência no Web Phone!");
+    } else if (phone_number.length >= 8 && phone_number.length <= 9){
+      alert("Telefone inválido, informe: DDD + Número");
+    } else {
+      alert("Número informado inválido!");
     }
   }
 
-  // Verifica se telefone contém somente caracteres númericos
-  function isNumber(phone_number) {
-    return /^\d+$/.test(phone_number);
+  // Desliga a ligação
+  this.to_hung_up = function (){ 
+    webPhone.inputStatusPhone.value = "Web Phone Desligado";
+    hung_up.style.display = "none";
+    call_number.style.display = "block";
+    calling.pause();
+    inputField.clean_text_field()
+  }
+}
+
+function InputField(){
+  current_text_field = 0;
+
+  // Escreve no campo de texto
+  this.add_text_in_field = function (value) {
+    const text_field = document.getElementById("inputBox");
+    text_field.value += value;
+    current_text_field += 1
+  }
+  
+  // Limpa o campo de texto
+  this.clean_text_field = function(){ 
+    document.getElementById("inputBox").value = "";
+    current_text_field = 0;
+  }
+  
+  // Apagar o último caracter do número de telefone
+  this.backspace_text_field = function(){
+    const campoTexto = document.getElementById("inputBox");
+    let valorAtual = campoTexto.value;
+    valorAtual = valorAtual.slice(0, -1);
+    campoTexto.value = valorAtual;
+    current_text_field -= 1 ;
   }
 
-  function formattedRecentCalls(recentCalls){
+  // Formata as ligações recentes
+  this.formattedRecentCalls = function(recentCalls){
     let calls = "";
     for (let i = 0; i < recentCalls.length; i++) {
       calls += recentCalls[i] + "\n";
     }
     document.getElementById("recentCalls").value = calls;    
+  }
+
+  // Formata o telefone ao realizar a chamada
+  this.formatPhoneNumberBR = function(phone_number) {
+    const match = phone_number.match(/^(\d{2})(\d{4,5})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    }
   }
 }
