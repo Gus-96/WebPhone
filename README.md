@@ -9,7 +9,7 @@ Funcionalidades
 - Validação de número de telefone: O WebPhone valida se o número informado é válido com base nos DDDs e formatos de telefone comuns no Brasil.
 - Toques de chamada: Um áudio de chamada é tocado durante a tentativa de chamada.
   
-O código é estruturado em três componentes principais:
+O código é estruturado em três componentes principais
 1. WebPhone
 - Gerencia a interface do telefone, incluindo o campo de texto para o número de telefone, o campo para chamadas recentes e o status de chamada.
 - Controla a interação com o teclado numérico e os botões de "Ligar", "Desligar" e "Limpar".
@@ -31,7 +31,7 @@ $ git clone https://github.com/Gus-96/webphone.git
 
 2. Abrir o arquivo HTML: Abra o arquivo index.html em seu navegador.
 
-3. Interação:
+3. Interação
 - Digite o número de telefone usando o teclado numérico.
 - Clique no botão "Ligar" para realizar a chamada.
 - Clique no botão "Desligar" para finalizar a chamada.
