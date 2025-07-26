@@ -1,7 +1,6 @@
 <img width="1030" height="620" alt="Captura de Tela 2025-07-17 às 14 26 55" src="https://github.com/user-attachments/assets/033f2409-023c-4e0e-a45d-3513090f3a26" />
 
 # WebPhone - Simulador de Chamadas
-
 O WebPhone é um aplicativo de telefone simples e interativo implementado utilizando JavaScript. Ele simula um telefone móvel em um navegador, permitindo realizar chamadas 
 e visualizar chamadas recentes. A interface é composta por um teclado numérico com botões para fazer e desligar chamadas, além de campos de entrada para o número de telefone 
 e o status do telefone.
